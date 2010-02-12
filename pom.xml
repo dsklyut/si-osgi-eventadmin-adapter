@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.dsklyut.si.osgi</groupId>
+    <artifactId>parent</artifactId>
+    <version>1.0.0.BUILD-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>Spring Integration Osgi EventAdmin Parent</name>
+
+    <modules>
+        <module>bundlor.osgi.profile</module>
+        <module>com.dsklyut.si.osgi.eventadmin</module>
+    </modules>
+
+    <properties>
+        <spring.version>3.0.0.RELEASE</spring.version>
+        <spring.osgi.version>1.2.1</spring.osgi.version>
+        <spring.integration.version>2.0.0.M2</spring.integration.version>
+        <junit.version>4.7.0</junit.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.osgi</groupId>
+                <artifactId>org.osgi.core</artifactId>
+                <version>4.2.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.osgi</groupId>
+                <artifactId>org.osgi.compendium</artifactId>
+                <version>4.2.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.junit</groupId>
+                <artifactId>com.springsource.org.junit</artifactId>
+                <version>${junit.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <!--<dependency>-->
+            <!--<groupId>cglib</groupId>-->
+            <!--<artifactId>cglib-nodep</artifactId>-->
+            <!--<version>2.1_3</version>-->
+            <!--<scope>test</scope>-->
+            <!--</dependency>-->
+            <!--<dependency>-->
+            <!--<groupId>org.easymock</groupId>-->
+            <!--<artifactId>easymock</artifactId>-->
+            <!--<version>2.3</version>-->
+            <!--<scope>test</scope>-->
+            <!--</dependency>-->
+            <!--<dependency>-->
+            <!--<groupId>org.easymock</groupId>-->
+            <!--<artifactId>easymockclassextension</artifactId>-->
+            <!--<version>2.3</version>-->
+            <!--<scope>test</scope>-->
+            <!--</dependency>-->
+            <!--<dependency>-->
+            <!--<groupId>org.springframework</groupId>-->
+            <!--<artifactId>org.springframework.aop</artifactId>-->
+            <!--<version>${spring.version}</version>-->
+            <!--<scope>compile</scope>-->
+            <!--</dependency>-->
+            <!--<dependency>-->
+            <!--<groupId>org.springframework</groupId>-->
+            <!--<artifactId>org.springframework.aop</artifactId>-->
+            <!--<version>${spring.version}</version>-->
+            <!--<scope>compile</scope>-->
+            <!--</dependency>-->
+            <!--<dependency>-->
+            <!--<groupId>org.springframework</groupId>-->
+            <!--<artifactId>spring-test</artifactId>-->
+            <!--<version>${spring.version}</version>-->
+            <!--<scope>test</scope>-->
+            <!--</dependency>-->
+            <dependency>
+                <groupId>org.springframework.integration</groupId>
+                <artifactId>org.springframework.integration</artifactId>
+                <version>${spring.integration.version}</version>
+            </dependency>
+            <!--<dependency>-->
+            <!--<groupId>org.mockito</groupId>-->
+            <!--<artifactId>mockito-all</artifactId>-->
+            <!--<version>1.8.0</version>-->
+            <!--<scope>test</scope>-->
+            <!--</dependency>-->
+            <dependency>
+                <groupId>org.springframework.integration</groupId>
+                <artifactId>org.springframework.integration.test</artifactId>
+                <version>${spring.integration.version}</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.0.2</version>
+                <configuration>
+                    <source>1.5</source>
+                    <target>1.5</target>
+                </configuration>
+            </plugin>
+            <!--<plugin>-->
+                <!--<groupId>org.apache.maven.plugins</groupId>-->
+                <!--<artifactId>maven-dependency-plugin</artifactId>-->
+                <!--<configuration>-->
+                    <!--<artifactItems>-->
+                        <!--<artifactItem>-->
+                            <!--<groupId>com.dsklyut.si.osgi</groupId>-->
+                            <!--<artifactId>bundlor.osgi.profile</artifactId>-->
+                            <!--<version>1.0.0.BUILD-SNAPSHOT</version>-->
+                            <!--<type>profile</type>-->
+                            <!--<classifier>java6-server</classifier>-->
+                            <!--<overWrite>true</overWrite>-->
+                            <!--<outputDirectory>${project.build.directory}</outputDirectory>-->
+                            <!--<destFileName>java6-server.profile</destFileName>-->
+                        <!--</artifactItem>-->
+                    <!--</artifactItems>-->
+                <!--</configuration>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<id>copy-server-profile</id>-->
+                        <!--<goals>-->
+                            <!--<goal>copy</goal>-->
+                        <!--</goals>-->
+                        <!--<phase>generate-resources</phase>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+            <!--</plugin>-->
+            <plugin>
+                <groupId>com.springsource.bundlor</groupId>
+                <artifactId>com.springsource.bundlor.maven</artifactId>
+                <version>1.0.0.RELEASE</version>
+                <executions>
+                    <execution>
+                        <id>bundle</id>
+                        <goals>
+                            <goal>bundlor</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <outputPath>${basedir}/src/main/resources</outputPath>
+                    <!-- used to properly set-up versions for system packages -->
+                    <osgiProfilePath>${basedir}/java6-server.profile</osgiProfilePath>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.3</version>
+                <configuration>
+                    <archive>
+                        <manifestFile>${basedir}/src/main/resources/META-INF/MANIFEST.MF</manifestFile>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-clean-plugin</artifactId>
+                <configuration>
+                    <filesets>
+                        <!-- clean old generated MANIFEST.MF files on clean -->
+                        <fileset>
+                            <directory>${basedir}/src/main/resources/META-INF</directory>
+                            <includes>
+                                <include>MANIFEST.MF</include>
+                            </includes>
+                        </fileset>
+                    </filesets>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <repositories>
+        <repository>
+            <id>com.springsource.repository.bundles.release</id>
+            <name>SpringSource Enterprise Bundle Repository - SpringSource Bundle Releases</name>
+            <url>http://repository.springsource.com/maven/bundles/release</url>
+        </repository>
+
+        <repository>
+            <id>com.springsource.repository.bundles.milestone</id>
+            <name>SpringSource Enterprise Bundle Repository - SpringSource Bundle Milestone</name>
+            <url>http://repository.springsource.com/maven/bundles/milestone</url>
+        </repository>
+
+        <repository>
+            <id>com.springsource.repository.bundles.external</id>
+            <name>SpringSource Enterprise Bundle Repository - External Bundle Releases</name>
+            <url>http://repository.springsource.com/maven/bundles/external</url>
+        </repository>
+    </repositories>
+</project>
